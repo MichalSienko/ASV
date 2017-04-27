@@ -24,17 +24,17 @@ close all
 clear all
 clc
 %% Parameters you may control
-desType = 1; % Set to 1 for SIFT, 2 for DSP, 3 for ASV-SIFT(1S), 4 for ASV-SIFT(1M2M).
+desType = 5; % Set to 1 for SIFT, 2 for DSP, 3 for ASV-SIFT(1S), 4 for ASV-SIFT(1M2M),5 for MICHAL.
 detectType = 1; % 1 for DoGAff of vlfeat covdet function with affine approximation
 samMax = 5000; % Default 5000 keypoints (already sorted by peakscores in extraction)
-isPlot = 1; % Set to 1 and the PR-curve will show.
+isPlot = 0; % Set to 1 and the PR-curve will show.
 isSave = 1; % Set to 1 and the results will be saved.
 
 
 
 %% Setting Paths, Vlfeat Library, and Vlfeat Benchmark Library
 run ../vlfeat-0.9.18/toolbox/vl_setup
-dataset_dir = '/home/shamangary2/Desktop/codeDemo/image_matching_dataset/Fischer/Fischer_dataset/';
+dataset_dir = './Fischer_dataset/';
 Lname = {'01_graffity','02_autumn_trees','03_freiburg_center','04_freiburg_from_munster_crop','05_freiburg_innenstadt','09_cool_car','12_wall','13_mountains','14_park_crop','17_freiburg_munster','18_graffity','20_hall2','21_dog2','22_small_palace','23_cat1','24_cat2'};
 LT = dir(['./Fischer_dataset/transformations/*.mat']);
 LTname = {LT.name};
@@ -97,6 +97,14 @@ for i =1:16
             load([nameD2,'/1M2M']);
             f2 = f;
             d2 = d_1m2m;
+        elseif desType == 5
+            load([nameD1,'/MICHAL']);
+            f1 = f;
+            d1 = d_michal;
+            
+            load([nameD2,'/MICHAL']);
+            f2 = f;
+            d2 = d_michal;
         else
             fprintf('Wrong "desType" choice!!! Error!!!\n');
             stop
@@ -227,6 +235,8 @@ if isSave == 1
         save([nameR,'allResults_asv'],'AP');
     elseif desType ==4
         save([nameR,'allResults_1m2m'],'AP');
+    elseif desType ==5
+        save([nameR,'allResults_michal'],'AP');
     else
         fprintf('Wrong "desType" choice!!! Error!!!\n');
         stop

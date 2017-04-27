@@ -2,7 +2,7 @@
 function [] = TYY_showResults()
 
 desType1 = 1;
-desType2 = 2;
+desType2 = 5;
 
 allmAP(desType1)
 headTohead(desType1,desType2)
@@ -31,7 +31,9 @@ elseif desType ==2
 elseif desType ==3
     load([nameR,'allResults_asv.mat'])
 elseif desType ==4
-    load([nameR,'allResults_1m2m.mat'])    
+    load([nameR,'allResults_1m2m.mat']) 
+elseif desType ==5
+    load([nameR,'allResults_michal.mat'])
 else
     stop
 end
@@ -78,13 +80,19 @@ for i = 1:2
     elseif desType(i) ==4
         load([nameR,'allResults_1m2m.mat'])
         pairAP(i,:) = AP;
+    elseif desType(i) ==5
+        load([nameR,'allResults_michal.mat'])
+        pairAP(i,:) = AP;
     end
 end
 
 figure(2)
 x = 0:0.1:1;
 y = 0:0.1:1;
+x_40 = 1:1:40;
+%plot(x_40,pairAP(1,:),'r-',x_40,pairAP(2,:),'g-','linewidth',3)
 plot(pairAP(1,:),pairAP(2,:),'ro',x,y,'k--','linewidth',3)
 xlabel(['desType:',num2str(desType(1)),', detectType: ',num2str(detectType(1))],'fontsize',20);
 ylabel(['desType:',num2str(desType(2)),', detectType: ',num2str(detectType(2))],'fontsize',20);
+legend('1','2');
 title('Oxford','fontsize',20)
